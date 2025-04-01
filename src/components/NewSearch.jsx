@@ -1,9 +1,8 @@
 import { useState } from "react";
-// import { Books } from "../utils/mockData";
 import Book from "./Book";
 import "./style.css";
 
-function NewSearch() {
+function NewSearch({filterSearchList}) {
   const [searchText, setSearchText] = useState("");
   const [filteredBooks, setFilteredBooks] = useState([]);
 
@@ -16,7 +15,7 @@ function NewSearch() {
       return;
     }
 
-    const filterBooks = Books.filter((book) =>
+    const filterBooks = filterSearchList.filter((book) =>
       book.title.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredBooks(filterBooks);

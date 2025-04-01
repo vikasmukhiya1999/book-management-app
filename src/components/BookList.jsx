@@ -3,40 +3,32 @@ import Book from "./Book";
 import "./style.css";
 import NewSearch from "./NewSearch";
 import { Link } from "react-router-dom";
+import useFetch from "../utils/useFetch";
 
 function BookList() {
   const [filteredBooks, setFilteredBooks] = useState([]);
-  function filterSearchList(filteredSearchBooks) {
-    setFilteredBooks(filteredSearchBooks);
-  }
+  const { data, error, loading } = useFetch(
+    "https://openlibrary.org/people/mekBot/books/want-to-read.json?limit=50"
+  );
+  console.log(data);
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  async function fetchData() {
-    try {
-
-      const response = await fetch(
-        "https://fakerapi.it/api/v1/books?_quantity=50"
-      );
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! status: ${response.status}`);
-      // }
-
-      
-      const data = await response.json();
-      console.log(data);
-      setFilteredBooks(data.data || []);
-      
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    if (data) {
+      setFilteredBooks(data);
     }
+  }, [data]);
+
+  if (error) {
+    return <p>error occured</p>;
+  }
+
+  if (loading) {
+    return <p>data loading please wait</p>;
   }
 
   return (
     <>
-      <NewSearch filterSearchList={filterSearchList} />
+      <NewSearch filterSearchList={data} />
       <div className="bookList">
         {filteredBooks.map((data) => (
           <Link key={data.id} to={`book/${data.id}`}>

@@ -22,14 +22,14 @@ const appRouter = createBrowserRouter([
         path: "/about",
         element: <About />,
       },
-      { 
+      {
         path: "/contact",
         element: <Contact />,
       },
       {
         path: "/book/:id",
         element: <BookDetails />,
-      }
+      },
     ],
     errorElement: <ErrorPage />,
   },

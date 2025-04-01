@@ -4,7 +4,7 @@ function Book(props) {
   return (
     <div className="book-card">
       <img className="book-cover"
-        src={props.bookDetails.image}
+        src={props.bookDetails.coverImage}
         height="200"
         width="100"
         alt="Image"
