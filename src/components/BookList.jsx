@@ -3,35 +3,32 @@ import Book from "./Book";
 import "./style.css";
 import NewSearch from "./NewSearch";
 import { Link } from "react-router-dom";
-import useFetch from "../utils/useFetch";
+// import useFetch from "../utils/useFetch";
+import { useBooks } from "../utils/BookContext";
 
 function BookList() {
+  const { books, loading, error } = useBooks();
   const [filteredBooks, setFilteredBooks] = useState([]);
-  const { data, error, loading } = useFetch(
-    "https://openlibrary.org/people/mekBot/books/want-to-read.json?limit=50"
-  );
-  console.log(data);
 
   useEffect(() => {
-    if (data) {
-      setFilteredBooks(data);
+    if (books) {
+      setFilteredBooks(books);
     }
-  }, [data]);
-
-  if (error) {
-    return <p>error occured</p>;
-  }
+  }, [books]);
 
   if (loading) {
-    return <p>data loading please wait</p>;
+    return <p>Loading books...</p>;
+  }
+  if (error) {
+    return <p>Error loading books: {error.message}</p>;
   }
 
   return (
     <>
-      <NewSearch filterSearchList={data} />
+      <NewSearch filterSearchList={books} />
       <div className="bookList">
         {filteredBooks.map((data) => (
-          <Link key={data.id} to={`book/${data.id}`}>
+          <Link key={data.id} to={`/book/${data.id}`} state={{ data }}>
             <Book bookDetails={data} />
           </Link>
         ))}

@@ -8,6 +8,7 @@ import Contact from "./components/contact.jsx";
 import ErrorPage from "./components/ErrorPage.jsx";
 import BookList from "./components/BookList.jsx";
 import BookDetails from "./components/BookDetails.jsx";
+import { BookProvider } from "./utils/BookContext.jsx";
 
 const appRouter = createBrowserRouter([
   {
@@ -37,6 +38,8 @@ const appRouter = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={appRouter} />
+    <BookProvider>
+      <RouterProvider router={appRouter} />
+    </BookProvider>
   </StrictMode>
 );
